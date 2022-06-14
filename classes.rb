@@ -23,3 +23,10 @@ class Person
     of_age? || parent_permission
   end
 end
+
+class Student < Person
+  def initialize(classroom)
+    super()
+    @classroom = classroom
+  end
+end
