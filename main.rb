@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require './storage'
 require './book'
 require './person'
@@ -19,7 +21,7 @@ class App
     puts 'Please choose an option by entering a number: '
     puts '1-List all books.'
     puts '2-List all people.'
-    puts '3-Create a person.' 
+    puts '3-Create a person.'
     puts '4-Create a book.'
     puts '5-Create a rental.'
     puts '6-List all rentals for a given person id.'
@@ -27,16 +29,23 @@ class App
     base_selection
   end
 
-  def base_selection
+  def base_selection # rubocop:disable Metrics/CyclomaticComplexity
     menu_option = gets.chomp
     case menu_option
-    when '1' then list_all_books.
-    when '2' then list_all_people.
-    when '3' then create_a_person. 
-    when '4' then create_a_book.
-    when '5' then create_a_rental.
-    when '6' then list_all_rentals_by_id.
-    when '7' then abort('Thank you for your engagement with us:)')
+    when '1'
+      list_all_books
+    when '2'
+      list_all_people
+    when '3'
+      create_a_person
+    when '4'
+      create_a_book
+    when '5'
+      create_a_rental
+    when '6'
+      list_all_rentals_by_id
+    when '7'
+      abort('Thank you for your engagement with us:)')
     else
       puts 'Invalid request'
       base_selection
@@ -45,14 +54,14 @@ class App
 
   def list_all_books
     @storage.books.each do |book|
-      puts 'Title: \"#{book.title}\", Author: #{book.author}'
+      puts %(Title: \"#{book.title}\", Author: #{book.author})
     end
     base_menu
   end
 
   def list_all_people
     @storage.people.each do |person|
-      puts '[#{person.class}]Name: #{person.name}, ID: #{person.id} Age: #{person.age}'
+      puts "[#{person.class}]Name: #{person.name}, ID: #{person.id} Age: #{person.age}"
     end
     base_menu
   end
@@ -62,9 +71,11 @@ class App
     menu_option = gets.chomp
 
     case menu_option
-    when '1' then create_a_student
-    when '2' then create_a_teacher
-    else  
+    when '1'
+      create_a_student
+    when '2'
+      create_a_teacher
+    else
       puts 'Invalid request'
       create_a_person
     end
@@ -78,7 +89,7 @@ class App
     name = gets.chomp
     puts 'Has parent permission? (Y/N): '
     parent_permission = gets.chomp.downcase == 'y'
-    student = Student.new(age, 'n/a', name, parent_permission: parent_permission)
+    student = Student.new(age: age, classroom: 'n/a', name: name, parent_permission: parent_permission)
     @storage.people << student
     puts 'Person created successfully'
   end
@@ -90,7 +101,7 @@ class App
     name = gets.chomp
     puts 'Specialization: '
     specialization = gets.chomp
-    teacher = Teacher.new(age, specialization, name)
+    teacher = Teacher.new(age: age, specialization: specialization, name: name)
     @storage.people << teacher
     puts 'Person created successfully'
   end
@@ -147,8 +158,8 @@ class App
 end
 
 def main
-  app = App.new()
-  app.run()
+  app = App.new
+  app.run
 end
 
-main()
+main
