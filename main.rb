@@ -105,4 +105,50 @@ class App
     puts 'Book created successfully'
     base_menu
   end
+
+  def create_a_rental
+    puts 'Select a book from the following list by number'
+    storage.books.each_with_index do |book, index|
+      puts "#{index}) Title: #{book.title}, Author: #{book.author}"
+    end
+    book_selection = gets.chomp.to_i
+    puts ''
+    puts 'Select a person from the following list by number (not id)'
+    storage.people.each_with_index do |person, index|
+      puts "#{index}) Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    end
+    person_selection = gets.chomp.to_i
+    puts ''
+    print('Enter the date of the rental (YYYY-MM-DD): ')
+    rental_date = gets.chomp
+    Rental.new(rental_date, storage.books[book_selection], storage.people[person_selection])
+    puts 'Rental created successfully'
+    base_menu
+  end
+
+  def list_all_rentals_by_id
+    puts 'Select a person from the following list by number (not id)'
+    storage.people.each_with_index do |person, index|
+      puts "#{index}) Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    end
+    print 'Enter the id of the person: '
+    person_selection = gets.chomp.to_i
+    puts 'Rentals:'
+    person = storage.people[person_selection]
+    person.rentals.each do |rental|
+      puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
+    end
+    base_menu
+  end
+
+  def run
+    base_menu
+  end
 end
+
+def main
+  app = App.new()
+  app.run()
+end
+
+main()
